@@ -8,6 +8,8 @@ var Spotify = require("node-spotify-api");
 var keys = require("./keys");
 var spotify = new Spotify(keys.spotify);
 
+console.log(keys);
+
 var userChoice = process.argv[2];
 switch (userChoice) {
     case "concert-this":
