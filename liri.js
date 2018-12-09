@@ -1,12 +1,13 @@
 //Requires
 //requre
 require("dotenv").config();
-var moment = require("moment");
-var axios = require("axios");
-var Spotify = require("node-spotify-api");
+const fs = require("fs");
+const moment = require("moment");
+const axios = require("axios");
+const Spotify = require("node-spotify-api");
 
-var keys = require("./keys");
-var spotify = new Spotify(keys.spotify);
+const keys = require("./keys");
+const spotify = new Spotify(keys.spotify);
 
 // console.log(keys);
 
@@ -18,17 +19,39 @@ for (var i = 4; i < process.argv.length; i++) {
 
 switch (userChoice) {
     case "concert-this":
+        console.log("\nBandsInTown");
         concertThis();
         break;
     case "spotify-this-song":
         spotifyThisSong();
+        console.log("\nSpotify");
         break;
     case "movie-this":
+        console.log("\nMovie");
         movieThis();
         break;
     case "do-what-it-says":
-        console.log("\nwhatever");
-
+        console.log("\nWhatever");
+        fs.readFile("./random.txt", "utf8", function (error, data) {
+            if (error) {
+                throw error;
+            }
+            // console.log(data);
+            var arr = data.split("::");
+            // console.log(arr);
+            var rand = Math.floor(Math.random() * arr.length);
+            var pick = arr[rand].split(", ");
+            // console.log(pick);
+            input = pick[1].replace(/"/g, "");
+            // console.log(input);
+            if (pick[0] === "concert-this") {
+                concertThis();
+            } else if (pick[0] === "spotify-this-song") {
+                spotifyThisSong();
+            } else if (pick[0] === "movie-this") {
+                movieThis();
+            }
+        });
         break;
     default:
         console.log("ERROR: Invalid Input");
@@ -38,8 +61,8 @@ switch (userChoice) {
 
 
 function concertThis() {
-    console.log("\nBandsInTown");
-    console.log("input: " + input);
+
+    console.log("Requested Artist: " + input);
     // console.log("key: " + keys.bands.key);
     var urlQuery = `https://rest.bandsintown.com/artists/${input}/events?app_id=${keys.bands.key}`
     axios.get(urlQuery).then(function (response) {
@@ -53,7 +76,7 @@ function concertThis() {
 }
 
 function spotifyThisSong() {
-    console.log("\nSpotify");
+
     // console.log("id: " + keys.spotify.id);
     // console.log("key: " + keys.spotify.secret);
     if (input == undefined) {
@@ -93,7 +116,7 @@ function spotifyThisSong() {
 }
 
 function movieThis() {
-    console.log("\nMovie");
+
     // console.log(input);
     if (input == undefined) {
         input = "Mr. Nobody";
