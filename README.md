@@ -4,6 +4,9 @@ LIRI-Bot is a termal app that allows the user to easily search for information a
 
 <img src="demonstration.gif" />
 
+Do what it says randomly picks one of the previous 3 options and then searches for a preselected value.
+<img src="do-what-it-says-demo.gif" />
+
 LIRI-Bot uses the following APIs to return the requested information. In order to use LIRI-Bot you will need to have API Keys for the following APIs to access their information. 
 OMDB API for movie information.
 BandsInTown API for upcoming concert information.
