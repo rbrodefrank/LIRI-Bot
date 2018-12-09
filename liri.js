@@ -24,7 +24,7 @@ switch (userChoice) {
         var urlQuery = `https://rest.bandsintown.com/artists/${input}/events?app_id=${keys.bands.key}`
         axios.get(urlQuery).then(function (response) {
             // console.log(response.data);
-            for(var i = 0; i < response.data.length; i++){
+            for (var i = 0; i < response.data.length; i++) {
                 console.log(`\n${response.data[i].venue.name}`);
                 console.log(`${response.data[i].venue.city}, ${response.data[i].venue.country}`);
                 console.log(moment(response.data[i].datetime).format("MM/DD/YYYY"));
@@ -34,9 +34,30 @@ switch (userChoice) {
         break;
     case "spotify-this-song":
         console.log("\nspotify");
-        console.log("id: " + keys.spotify.id);
-        console.log("key: " + keys.spotify.secret);
+        // console.log("id: " + keys.spotify.id);
+        // console.log("key: " + keys.spotify.secret);
+        if(input == undefined) {
+            input = "The Sign"; 
+        }
 
+        spotify.search({
+            type: "track",
+            query: input,
+            limit: 1,
+        }, function (error, response) {
+            if (error) {
+                return console.log(`Error occurred: ${error}`);
+            }
+
+            // console.log(response);
+            var song = response.tracks.items[0];
+            // console.log(song);
+
+            console.log(`\nArtist: ${song.artists[0].name}`);//Artist Name
+            console.log(`Title: ${song.name}`); //Album Name
+            console.log(song.external_urls.spotify);//Spotify Link
+            console.log(`Album: ${song.album.name}`); //Album Name
+        })
         break;
     case "movie-this":
         console.log("\nmovie");
