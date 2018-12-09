@@ -36,28 +36,40 @@ switch (userChoice) {
         console.log("\nspotify");
         // console.log("id: " + keys.spotify.id);
         // console.log("key: " + keys.spotify.secret);
-        if(input == undefined) {
-            input = "The Sign"; 
+        if (input == undefined) {
+            spotify.request('https://api.spotify.com/v1/tracks/0hrBpAOgrt8RXigk83LLNE').then(function (data) {
+                // console.log(data);
+                console.log(`Artist: ${data.artists[0].name}`);//Artist Name
+                console.log(`Title: ${data.name}`); //Album Name
+                console.log(data.external_urls.spotify);//Spotify Link
+                console.log(`Album: ${data.album.name}`); //Album Name
+            }).catch(function (error) {
+                console.error('Error occurred: ' + error);
+            });
+        } else {
+            spotify.search({
+                type: "track",
+                query: input,
+                limit: 1,
+            }, function (error, response) {
+                if (error) {
+                    return console.log(`Error occurred: ${error}`);
+                }
+
+                // console.log(response);
+
+                for (var i = 0; i < response.tracks.items.length; i++) {
+                    var song = response.tracks.items[i];
+                    console.log(`\n${i + 1},`);
+                    // console.log(song);
+                    console.log(`Artist: ${song.artists[0].name}`);//Artist Name
+                    console.log(`Title: ${song.name}`); //Album Name
+                    console.log(song.external_urls.spotify);//Spotify Link
+                    console.log(`Album: ${song.album.name}`); //Album Name
+                }
+
+            });
         }
-
-        spotify.search({
-            type: "track",
-            query: input,
-            limit: 1,
-        }, function (error, response) {
-            if (error) {
-                return console.log(`Error occurred: ${error}`);
-            }
-
-            // console.log(response);
-            var song = response.tracks.items[0];
-            // console.log(song);
-
-            console.log(`\nArtist: ${song.artists[0].name}`);//Artist Name
-            console.log(`Title: ${song.name}`); //Album Name
-            console.log(song.external_urls.spotify);//Spotify Link
-            console.log(`Album: ${song.album.name}`); //Album Name
-        })
         break;
     case "movie-this":
         console.log("\nmovie");
