@@ -56,7 +56,7 @@ function callType() {
                     {
                         name: "limit",
                         type: "input",
-                        message: "How many songs do you want returned?s"
+                        message: "How many songs do you want returned?"
                     }
                 ]).then(function (search) {
                     input = search.input;
@@ -92,6 +92,7 @@ function callType() {
                     if (error) {
                         throw error;
                     }
+                    limit = 1;
                     // console.log(data);
                     var arr = data.split("::");
                     // console.log(arr);
@@ -121,7 +122,7 @@ function numberInput() {
         {
             name: "limit",
             type: "input",
-            message: "How many songs do you want returned?s"
+            message: "How many songs do you want returned?"
         }
     ]).then(function (search) {
         if (!Number.isNaN(parseInt(search.limit))) {
